@@ -1,6 +1,6 @@
-# announcementtest
+# announcement
 
-A new Flutter application.
+announcement
 
 ## Getting Started
 

@@ -13,10 +13,9 @@ class adminAnnouncementPage extends StatefulWidget {
 class _announcementPageState extends State<adminAnnouncementPage> {
 
   //Map data = {};
-
+  String dropdownValue = 'Future events';
   @override
   Widget build(BuildContext context) {
-
     //data = ModalRoute.of(context).settings.arguments;
     //Announcement announcement = data['newAnnouncement'];
     
@@ -55,14 +54,47 @@ class _announcementPageState extends State<adminAnnouncementPage> {
         ],
       ),
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: announcements.map((announcement) => AnnouncementCard(
-              announcement:announcement
-          )).toList(),
-        ),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text('Filter events'),
+              DropdownButton(
+                value: dropdownValue,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    dropdownValue = newValue;
+                  });
+                },
+                items: <String>['Future events', 'Past events', 'All events', 'My events']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          Container(
+            height: 500,
+            child: ListView(
+              children: announcements.map((announcement) => AdminAnnouncementCard(
+                  announcement:announcement
+              )).toList(),
+            ),
+          ),
+        ]
       ),
-
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
 

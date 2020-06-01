@@ -11,7 +11,7 @@ class announcementPage extends StatefulWidget {
 }
 
 class _announcementPageState extends State<announcementPage> {
-
+  String dropdownValue = 'Future events';
   //Map data = {};
 
   @override
@@ -55,22 +55,46 @@ class _announcementPageState extends State<announcementPage> {
         ],
       ),
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: announcements.map((announcement) => AnnouncementCard(
-              announcement:announcement
-          )).toList(),
-        ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-
-        onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute
-            (builder: (BuildContext context) => announcementCreate())
-          );
-        },
+      body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text('Filter events'),
+                DropdownButton(
+                  value: dropdownValue,
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>['Future events', 'Past events', 'All events']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            Container(
+              height: 500,
+              child: ListView(
+                children: announcements.map((announcement) => StudentAnnouncementCard(
+                    announcement:announcement
+                )).toList(),
+              ),
+            ),
+          ]
       ),
     );
   }
